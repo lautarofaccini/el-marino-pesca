@@ -1,13 +1,11 @@
 "use client";
 import { useState } from "react";
 
-function AgregarCantidad() {
+function AgregarCantidad({stock}) {
   const [cantidad, setCantidad] = useState(1);
-  //TEMPORAL
-  const stock = 4;
 
   const handleCantidad = (op) => {
-    if (op === -1 && cantidad > 1 || op === 1 && cantidad < stock) {
+    if ((op === -1 && cantidad > 1) || (op === 1 && cantidad < stock)) {
       setCantidad(cantidad + op);
     }
   };
@@ -32,9 +30,12 @@ function AgregarCantidad() {
               +
             </button>
           </div>
-          <div>
-            Quedan solo <span className="text-orange-500">{stock}</span> unidades!
-          </div>
+          {stock < 5 && (
+            <div>
+              Quedan solo <span className="text-orange-500">{stock}</span>{" "}
+              unidades!
+            </div>
+          )}
         </div>
         <button className="w-36 text-sm rounded-3xl cursor-pointer ring-1 ring-red-400 text-red-400 py-2 px-4 hover:bg-red-400 hover:text-white disabled:cursor-not-allowed disabled:bg-pink-200 disabled:text-white disabled:ring-none">
           Agregar al Carrito

@@ -1,4 +1,4 @@
-import { getCategories } from "@/libs/get-categories";
+import { getCategories } from "@/libs/get-categorias";
 
 async function Categories() {
   const categories = await getCategories();

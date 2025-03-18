@@ -28,7 +28,7 @@ const Footer = () => {
           <h1 className="font-medium text-lg">Comprar</h1>
           <Link href="">Ingresos</Link>
           <Link href="">Accesorios</Link>
-          <Link href="/lista">Todos los productos</Link>
+          <Link href="/productos">Todos los productos</Link>
         </div>
         {/* RIGHT */}
         <div className="w-full md:w-1/2 lg:w-1/4 flex flex-col gap-8">
