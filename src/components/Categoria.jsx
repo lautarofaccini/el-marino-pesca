@@ -5,7 +5,7 @@ function Categoria({ categoria }) {
   return (
     <Link
       className="flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 xl:w-1/6"
-      href={"/productos?categoria=" + categoria.slug}
+      href={categoria.slug ? "/productos?categoria=" + categoria.slug : "/productos"}
     >
       <div className="relative bg-slate-100 w-full h-96">
         <Image
