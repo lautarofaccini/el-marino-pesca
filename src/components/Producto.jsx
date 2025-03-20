@@ -1,4 +1,3 @@
-import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -34,10 +33,6 @@ function Producto({ producto }) {
         <span className="font-medium">{producto.nombre}</span>
         <span className="font-semibold">${producto.precio}</span>
       </div>
-      <BlocksRenderer
-        className="text-sm to-gray-500"
-        content={producto.descripcion}
-      />
       <button className="rounded-2xl ring-1 ring-red-400 text-red-400 w-max py-2 px-4 text-xs hover:bg-red-400 hover:text-white">
         Ver
       </button>

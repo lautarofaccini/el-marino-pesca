@@ -14,9 +14,9 @@ export async function getProductos(categoria) {
           id,
           nombre,
           slug,
-          descripcion,
           isActive,
           precio,
+          descuento,
           stock,
           imagenes: images,
         } = producto;
@@ -27,9 +27,9 @@ export async function getProductos(categoria) {
           id,
           nombre,
           slug,
-          descripcion,
           isActive,
           precio,
+          descuento,
           stock,
           imagenes,
         };
@@ -43,6 +43,7 @@ export async function getProducto(slug) {
   return query(
     `productos?filters[slug][$eq]=${slug}&populate[imagenes][fields][0]=url`
   ).then((res) => {
+    console.log(res.data)
     return res.data.map((producto) => {
       const {
         nombre,

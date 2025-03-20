@@ -3,7 +3,7 @@ import Categoria from "./Categoria";
 
 async function ListaCategorias() {
   const categorias = await getCategorias();
-  if (categorias.length === 0) return null;
+  if (categorias.length === 0) return <div>No hay categorías cargadas</div>;
   const noCategoria = {
     nombre: "Todos los productos",
     imagen: "http://localhost:1337/uploads/canas_05fb6ded91.jpg",
