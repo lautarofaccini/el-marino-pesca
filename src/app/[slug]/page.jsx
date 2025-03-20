@@ -9,7 +9,10 @@ async function ProductoPage({ params }) {
 
   if (producto.length === 0) return null;
 
-  const { nombre, precio, stock, imagenes } = producto[0];
+  const { nombre, especificaciones, precio, descuento, stock, imagenes } =
+    producto[0];
+
+  const precioDescontado = precio * (1 - descuento / 100);
 
   return (
     <div className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16">
@@ -22,8 +25,9 @@ async function ProductoPage({ params }) {
         <h1 className="text-4xl font-medium">{nombre}</h1>
         <div className="h-[2px] bg-gray-200" />
         <div className="flex items-center gap-4">
-          <h3 className="text-xl to-gray-500 line-through">${precio}</h3>
-          <h2 className="font-medium text-2xl">$10000</h2>
+          <h3 className="text-xl text-gray-500 line-through">${precio}</h3>
+          <h3 className="text-xl text-red-500">%{descuento}</h3>
+          <h2 className="font-medium text-2xl">${precioDescontado}</h2>
         </div>
         <div className="h-[2px] bg-gray-200" />
         <PersonalizarProducto />
@@ -31,12 +35,11 @@ async function ProductoPage({ params }) {
         <div className="h-[2px] bg-gray-200" />
         <div className="text-sm">
           <h4 className="font-medium mb-4">Características Principales</h4>
-          <p>Modelo SILVERTECH</p>
-          <p>Marca: BAMBOO</p>
-          <p>Largo total 240 cm</p>
-          <p>Peso de la caña de pescar 380 g</p>
-          <p>Resistencia 12-25 lb</p>
-          <p>Acción MEDIA</p>
+          {especificaciones.map((esp) => (
+            <div key={esp.id}>
+              {esp.caracteristica}: {esp.detalle}
+            </div>
+          ))}
         </div>
       </div>
     </div>

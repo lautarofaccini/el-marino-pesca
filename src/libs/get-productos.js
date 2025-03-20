@@ -6,58 +6,69 @@ export async function getProductos(categoria) {
   const filters = categoria
     ? `&filters[categorias][slug][$contains]=${categoria}`
     : "";
-  return query(`productos?populate[imagenes][fields][0]=url${filters}`).then(
-    (res) => {
-      const { data, meta } = res;
-      const productos = data.map((producto) => {
-        const {
-          id,
-          nombre,
-          slug,
-          isActive,
-          precio,
-          descuento,
-          stock,
-          imagenes: images,
-        } = producto;
-
-        const imagenes = images?.map((img) => `${STRAPI_HOST}${img.url}`) || [];
-
-        return {
-          id,
-          nombre,
-          slug,
-          isActive,
-          precio,
-          descuento,
-          stock,
-          imagenes,
-        };
-      });
-      return { productos, pagination: meta.pagination };
-    }
-  );
-}
-
-export async function getProducto(slug) {
   return query(
-    `productos?filters[slug][$eq]=${slug}&populate[imagenes][fields][0]=url`
+    `productos?populate[imagenes][fields][0]=url&populate=especificaciones${filters}`
   ).then((res) => {
-    console.log(res.data)
-    return res.data.map((producto) => {
+    const { data, meta } = res;
+    const productos = data.map((producto) => {
       const {
+        id,
         nombre,
         slug,
-        descripcion,
+        especificaciones,
         isActive,
         precio,
+        descuento,
         stock,
         imagenes: images,
       } = producto;
 
       const imagenes = images?.map((img) => `${STRAPI_HOST}${img.url}`) || [];
 
-      return { nombre, slug, descripcion, isActive, precio, stock, imagenes };
+      return {
+        id,
+        nombre,
+        slug,
+        especificaciones,
+        isActive,
+        precio,
+        descuento,
+        stock,
+        imagenes,
+      };
+    });
+    return { productos, pagination: meta.pagination };
+  });
+}
+
+export async function getProducto(slug) {
+  return query(
+    `productos?filters[slug][$eq]=${slug}&populate[imagenes][fields][0]=url&populate=especificaciones`
+  ).then((res) => {
+    return res.data.map((producto) => {
+      const {
+        nombre,
+        slug,
+        especificaciones,
+        isActive,
+        precio,
+        descuento,
+        stock,
+        imagenes: images,
+      } = producto;
+
+      const imagenes = images?.map((img) => `${STRAPI_HOST}${img.url}`) || [];
+
+      return {
+        nombre,
+        slug,
+        especificaciones,
+        isActive,
+        precio,
+        descuento,
+        stock,
+        imagenes,
+      };
     });
   });
 }
