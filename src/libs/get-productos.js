@@ -1,11 +1,14 @@
 import { query } from "./strapi";
 const { STRAPI_HOST } = process.env;
 
-export async function getProductos(categoria) {
+export async function getProductos(categoria, page) {
   //Si existe categoria, filtrar por ella
-  const filters = categoria
+  let filters = categoria
     ? `&filters[categorias][slug][$contains]=${categoria}`
     : "";
+
+  if (page) filters += `&pagination[page]=${page}`;
+  filters += `&pagination[pageSize]=${1}`;
   return query(`productos?populate[imagenes][fields][0]=url${filters}`).then(
     (res) => {
       const { data, meta } = res;

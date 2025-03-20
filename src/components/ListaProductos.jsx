@@ -1,6 +1,7 @@
 import { getProductos } from "@/libs/get-productos";
 import Producto from "./Producto";
 import Paginacion from "./Paginacion";
+
 async function ListaProductos({ categoria }) {
   const { productos, pagination } = await getProductos(categoria);
   console.log(pagination);
@@ -12,7 +13,7 @@ async function ListaProductos({ categoria }) {
           <Producto key={producto.id} producto={producto} />
         ))}
       </div>
-      <Paginacion pagination={pagination} />
+      <Paginacion totalPages={pagination.pageCount} />
     </div>
   );
 }
