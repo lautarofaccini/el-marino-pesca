@@ -15,7 +15,7 @@ async function ListaProductos({ categoria }) {
           <Producto key={producto.id} producto={producto} />
         ))}
       </div>
-      <Paginacion pagination={pagination} />
+      <Paginacion totalPages={pagination.pageCount} />
     </div>
   );
 }
