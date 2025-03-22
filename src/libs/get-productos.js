@@ -8,9 +8,8 @@ export async function getProductos(categoria, page) {
     : "";
   if (page) filters += `&pagination[page]=${page}`;
   filters += `&pagination[pageSize]=${1}`;
-  return query(
-    `productos?populate[imagenes][fields][0]=url&populate=especificaciones${filters}`
-  ).then((res) => {
+  const newQuery = `productos?populate[imagenes][fields][0]=url&populate=especificaciones${filters}`;
+  return query(newQuery).then((res) => {
     const { data, meta } = res;
     const productos = data.map((producto) => {
       const {
