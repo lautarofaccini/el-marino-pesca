@@ -3,48 +3,49 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
-function Paginacion({ totalPages, onPageChange }) {
+function Paginacion({ totalPages }) {
   const searchParams = useSearchParams();
   const currentPage = parseInt(searchParams.get("page")) || 1;
 
+  // Calcula la URL para la página anterior y siguiente
   const prevPage = currentPage === 1 ? "#" : `?page=${currentPage - 1}`;
   const nextPage =
     currentPage === totalPages ? "#" : `?page=${currentPage + 1}`;
 
-  // Function to generate the page numbers to display
+  // Función para generar los números de página a mostrar
   const getPageNumbers = () => {
     const result = [];
 
-    // Always show first page
+    // Mostrar siempre la primera página
     result.push(1);
 
-    // Calculate the range of pages to show around the current page
+    // Calcular el rango de páginas a mostrar alrededor de la página actual
     let rangeStart = Math.max(2, currentPage - 1);
     let rangeEnd = Math.min(totalPages - 1, currentPage + 1);
 
-    // Adjust range to always show 3 pages if possible
-    if (currentPage <= 3) {
+    // Ajustar el rango para mostrar siempre 3 páginas si es posible
+    if (currentPage < 3) {
       rangeEnd = Math.min(totalPages - 1, 3);
-    } else if (currentPage >= totalPages - 2) {
+    } else if (currentPage > totalPages - 2) {
       rangeStart = Math.max(2, totalPages - 2);
     }
 
-    // Add ellipsis after first page if there's a gap
+    // Agregar puntos suspensivos después de la primera página si existe un salto
     if (rangeStart > 2) {
       result.push("ellipsis1");
     }
 
-    // Add the range of pages
+    // Agregar el rango de páginas
     for (let i = rangeStart; i <= rangeEnd; i++) {
       result.push(i);
     }
 
-    // Add ellipsis before last page if there's a gap
+    // Agregar puntos suspensivos antes de la última página si existe un salto
     if (rangeEnd < totalPages - 1) {
       result.push("ellipsis2");
     }
 
-    // Always show last page if it's not the first page
+    // Mostrar siempre la última página, si es distinta a la primera
     if (totalPages > 1) {
       result.push(totalPages);
     }
@@ -54,7 +55,7 @@ function Paginacion({ totalPages, onPageChange }) {
 
   const pageNumbers = getPageNumbers();
 
-  // Don't render pagination if there's only one page
+  // No renderizar paginación si solo hay una página
   if (totalPages <= 1) return null;
 
   return (
@@ -62,7 +63,7 @@ function Paginacion({ totalPages, onPageChange }) {
       className="flex items-center justify-center space-x-1 md:space-x-2"
       aria-label="Paginación"
     >
-      {/* Previous button */}
+      {/* Botón de página anterior */}
       <Link
         href={prevPage}
         className={`inline-flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-md border text-sm transition-colors ${
@@ -77,7 +78,7 @@ function Paginacion({ totalPages, onPageChange }) {
         &lt;
       </Link>
 
-      {/* Page numbers */}
+      {/* Números de página */}
       <div className="flex items-center space-x-1 md:space-x-2">
         {pageNumbers.map((page, index) => {
           if (page === "ellipsis1" || page === "ellipsis2") {
@@ -96,7 +97,7 @@ function Paginacion({ totalPages, onPageChange }) {
           return (
             <Link
               key={page}
-              href={"?page=" + page}
+              href={`?page=${page}`}
               className={`inline-flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-md text-sm font-medium transition-colors ${
                 isCurrentPage
                   ? "bg-gray-900 text-white"
@@ -110,7 +111,7 @@ function Paginacion({ totalPages, onPageChange }) {
         })}
       </div>
 
-      {/* Next button */}
+      {/* Botón de página siguiente */}
       <Link
         href={nextPage}
         className={`inline-flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-md border text-sm transition-colors ${

@@ -25,7 +25,7 @@ function Navbar() {
             <div className="text-2xl tracking-wide">{nombre}</div>
           </Link>
           <div className="hidden xl:flex gap-4">
-            <Link href="/">Homepage</Link>
+            <Link href="/productos">Productos</Link>
             <Link href="/">Homepage</Link>
             <Link href="/">Homepage</Link>
             <Link href="/">Homepage</Link>

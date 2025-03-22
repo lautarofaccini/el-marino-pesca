@@ -2,10 +2,10 @@ import { getProductos } from "@/libs/get-productos";
 import Producto from "./Producto";
 import Paginacion from "./Paginacion";
 
-async function ListaProductos({ categoria }) {
-  const { productos, pagination } = await getProductos(categoria);
-  console.log(pagination);
-  
+async function ListaProductos({ categoria, pagina }) {
+
+  const { productos, pagination } = await getProductos(categoria, pagina);
+
   if (productos.length === 0) return <div>No hay productos cargados</div>;
 
   return (
