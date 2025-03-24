@@ -1,26 +1,57 @@
 import ListaProductos from "@/components/ListaProductos";
 import ListaCategorias from "@/components/ListaCategorias";
 import { getProductos } from "@/libs/get-productos";
+import Hero from "@/components/Hero";
+import Link from "next/link";
+import Image from "next/image";
 
 async function HomePage() {
   const { productos: productosDestacados } = await getProductos("destacados");
-  const { productos: productosNuevos } = await getProductos("nuevos-ingresos");
+  const { productos: productosNuevos } = await getProductos(
+    "nuevos-ingresos",
+    undefined,
+    "createdAt:desc"
+  );
   return (
-    <div>
-      <div className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
-        <h1 className="text-2xl">Productos Destacados</h1>
-        <ListaProductos productos={productosDestacados} />
+    <div className="flex flex-col min-h-screen">
+      <Hero />
+      <div className="py-12 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 bg-white">
+        <div className="container">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl">Productos Destacados</h2>
+            <Link
+              href="/productos"
+              className="text-sm font-medium hover:underline"
+            >
+              Ver todos
+            </Link>
+          </div>
+          <ListaProductos productos={productosDestacados} />
+        </div>
       </div>
-      <div className="mt-24">
-        <h1 className="text-2xl px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 mb-12">
-          Categorias
-        </h1>
-        <ListaCategorias />
+      <div className="py-12 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 bg-blue-50">
+        <div className="container">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl">Nuevos Ingresos</h2>
+            <Link
+              href="/productos"
+              className="text-sm font-medium hover:underline"
+            >
+              Ver todos
+            </Link>
+          </div>
+          <ListaProductos productos={productosNuevos} />
+        </div>
       </div>
-      <div className="mt-24 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
-        <h1 className="text-2xl">Productos nuevos</h1>
-        <ListaProductos productos={productosNuevos} />
+      <div className="py-12 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 mb-12 bg-white">
+        <div className="container">
+          <h1 className="text-2xl">Categorias</h1>
+          <ListaCategorias />
+        </div>
       </div>
+      {/*
+      //TODO: Boton que aparezca en mobiles para desplazarte hacia arriba
+      */}
     </div>
   );
 }

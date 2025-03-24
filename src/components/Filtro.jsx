@@ -1,6 +1,6 @@
 function Filtro() {
   return (
-    <div className="mt-12 flex justify-between">
+    <div className="flex justify-between">
       {/* IZQUIERDA */}
       <div className="flex gap-6 flex-wrap">
         <select

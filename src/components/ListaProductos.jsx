@@ -4,12 +4,10 @@ function ListaProductos({ productos }) {
   if (productos.length === 0) return <div>No hay productos cargados</div>;
 
   return (
-    <div>
-      <div className="mt-12 flex gap-x-8 gap-y-16 justify-between flex-wrap">
-        {productos.map((producto) => (
-          <Producto key={producto.id} producto={producto} />
-        ))}
-      </div>
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {productos.map((producto) => (
+        <Producto key={producto.id} producto={producto} />
+      ))}
     </div>
   );
 }
