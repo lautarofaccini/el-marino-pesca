@@ -4,7 +4,7 @@ import Link from "next/link";
 
 function Hero() {
   return (
-    <div className="relative w-full h-[60vh] bg-blue-50">
+    <div className="relative w-full h-[50vh] bg-blue-50">
       <div className="absolute inset-0 z-0">
         <Image
           src="/cana3.png"

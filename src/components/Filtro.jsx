@@ -1,6 +1,6 @@
 function Filtro() {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between py-12">
       {/* IZQUIERDA */}
       <div className="flex gap-6 flex-wrap">
         <select
