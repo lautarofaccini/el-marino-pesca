@@ -25,20 +25,6 @@ function Filtro() {
           placeholder="precio max."
         />
       </div>
-      {/* DERECHA */}
-      <div>
-        <select
-          className="py-2 px-2 rounded-2xl text-xs font-medium bg-[#EBEDED]"
-          name="Orden"
-          id=""
-        >
-          <option>Ordenar por</option>
-          <option value="">Precio (Menor a Mayor)</option>
-          <option value="">Precio (Mayor a Menor)</option>
-          <option value="">Más nuevo</option>
-          <option value="">Más viejo</option>
-        </select>
-      </div>
     </div>
   );
 }

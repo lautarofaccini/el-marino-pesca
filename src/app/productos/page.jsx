@@ -1,5 +1,6 @@
 import Filtro from "@/components/Filtro";
 import ListaProductos from "@/components/ListaProductos";
+import NuevosFiltros from "@/components/NuevosFiltros";
 import Paginacion from "@/components/Paginacion";
 import { getProductos } from "@/libs/get-productos";
 
@@ -18,17 +19,18 @@ async function ProductosPage({ searchParams }) {
             </p>
           </div>
           <div className="flex flex-col gap-4 sm:flex-row">
-              <select
-                className="py-2 px-2 rounded-2xl text-xs font-medium bg-[#EBEDED]"
-                name="Orden"
-                id=""
-              >
-                <option>Ordenar por</option>
-                <option value="">Precio (Menor a Mayor)</option>
-                <option value="">Precio (Mayor a Menor)</option>
-                <option value="">Más nuevo</option>
-                <option value="">Más viejo</option>
-              </select>
+            <select
+              className="py-2 px-2 rounded-2xl text-xs font-medium bg-[#EBEDED]"
+              name="Orden"
+              id=""
+            >
+              <option>Ordenar por</option>
+              <option value="">Precio (Menor a Mayor)</option>
+              <option value="">Precio (Mayor a Menor)</option>
+              <option value="">Más nuevo</option>
+              <option value="">Más viejo</option>
+            </select>
+            <NuevosFiltros />
           </div>
         </div>
         {/* FILTRO */}
