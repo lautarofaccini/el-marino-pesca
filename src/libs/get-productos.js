@@ -1,14 +1,24 @@
 import { query } from "./strapi";
 const { STRAPI_HOST } = process.env;
 
-export async function getProductos(categoria, page, sort) {
-  //Si existe categoria, filtrar por ella
-  let filters = categoria
-    ? `&filters[categorias][slug][$contains]=${categoria}`
-    : "";
-  if (page) filters += `&pagination[page]=${page}`;
-  if (sort) filters += `&sort=${sort}`;
-  //filters += `&pagination[pageSize]=${1}`;
+export async function getProductos(categoria, page, sort, busqueda) {
+  // Construir filtros según lo recibido
+  let filters = "";
+  if (categoria) {
+    filters += `&filters[categorias][slug][$contains]=${categoria}`;
+  }
+  if (busqueda) {
+    // Se usa el operador $containsi para búsqueda insensible a mayúsculas/minúsculas
+    filters += `&filters[nombre][$containsi]=${busqueda}`;
+  }
+  if (page) {
+    filters += `&pagination[page]=${page}`;
+  }
+  if (sort) {
+    filters += `&sort=${sort}`;
+  }
+  filters += `&pagination[pageSize]=25`;
+  
   const newQuery = `productos?populate[imagenes][fields][0]=url&populate=especificaciones${filters}`;
   return query(newQuery).then((res) => {
     const { data, meta } = res;

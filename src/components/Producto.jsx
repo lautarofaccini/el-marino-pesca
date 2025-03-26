@@ -16,6 +16,8 @@ function Producto({ producto }) {
               src={producto.imagenes[1]}
               alt=""
               fill
+              sizes="25vw"
+              priority={true}
               className="absolute object-cover rounded-md opacity-0 z-10 hover:opacity-100 transition-opacity easy duration-500"
             />
           )
@@ -24,6 +26,8 @@ function Producto({ producto }) {
           src={producto.imagenes[0]}
           alt=""
           fill
+          sizes="25vw"
+          priority={true}
           className="absolute object-cover rounded-md"
         />
         {/* Mostrar etiqueta de nuevo, descuento, etc */}
