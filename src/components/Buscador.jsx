@@ -1,16 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 function Buscador() {
+  const [input, setInput] = useState("");
   const router = useRouter();
 
   function handleSearch(e) {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get("name");
-    if (name) {
-      router.push(`/productos?name=${name}`);
+    if (input.trim() !== "") {
+      router.push(`/productos?busqueda=${encodeURIComponent(input.trim())}`);
     }
   }
 
@@ -22,10 +22,13 @@ function Buscador() {
       <input
         className="flex-1 bg-transparent outline-none"
         type="text"
-        name="name"
-        placeholder="Buscar..."
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Buscar productos..."
       />
-      <button className="cursor-pointer">Buscar</button>
+      <button className="cursor-pointer" type="submit">
+        Buscar
+      </button>
     </form>
   );
 }

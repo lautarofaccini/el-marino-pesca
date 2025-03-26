@@ -11,18 +11,29 @@ import Paginacion from "@/components/Paginacion";
 
 const ProductosPage = () => {
   const searchParams = useSearchParams();
-  const pagina = searchParams.get("page");
+  const pagina = searchParams.get("page") || 1;
+  const categoria = searchParams.get("categoria");
+  const sort = searchParams.get("sort");
+  const busqueda = searchParams.get("busqueda");
+
   const [productos, setProductos] = useState([]);
   const [pagination, setPagination] = useState({ pageCount: 0 });
   const [productosFiltrados, setProductosFiltrados] = useState([]);
   const [categorias, setCategorias] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchProductos() {
-      const res = await fetch(`/api/productos?page=${pagina || 1}`);
+      const queryParams = new URLSearchParams();
+      queryParams.set("page", pagina);
+      if (categoria) queryParams.set("categoria", categoria);
+      if (sort) queryParams.set("sort", sort);
+      if (busqueda) queryParams.set("busqueda", busqueda);
+
+      const res = await fetch(`/api/productos?${queryParams.toString()}`);
       const data = await res.json();
       setProductos(data.productos);
+      console.log(data.productos)
       setProductosFiltrados(data.productos);
       setPagination(data.pagination);
     }
@@ -31,10 +42,19 @@ const ProductosPage = () => {
       const data = await res.json();
       setCategorias(data);
     }
+    setLoading(true);
     fetchProductos();
     fetchCategorias();
+    
     setLoading(false);
-  }, [pagina]);
+  }, [pagina, busqueda]);
+
+  // Función para limpiar filtros, redirigiendo a la versión sin query params
+  const limpiarFiltros = () => {
+    window.location.href = "/productos";
+  };
+
+  if (loading) return <p>Cargando...</p>;
 
   return (
     <div className="py-12 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">

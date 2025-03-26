@@ -3,7 +3,16 @@ import { getProductos } from "@/libs/get-productos";
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const page = searchParams.get("page");
-
-  const { productos, pagination } = await getProductos(undefined, page);
+  const categoria = searchParams.get("categoria");
+  const sort = searchParams.get("sort");
+  const busqueda = searchParams.get("busqueda");
+  
+  console.log(page)
+  const { productos, pagination } = await getProductos(
+    categoria,
+    page,
+    sort,
+    busqueda
+  );
   return Response.json({ productos, pagination });
 }

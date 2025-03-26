@@ -9,7 +9,7 @@ export async function getProductos(categoria, page, sort, busqueda) {
   }
   if (busqueda) {
     // Se usa el operador $containsi para búsqueda insensible a mayúsculas/minúsculas
-    filters += `&filters[nombre][$containsi]=${busqueda}`;
+    filters += `&filters[slug][$containsi]=${busqueda}`;
   }
   if (page) {
     filters += `&pagination[page]=${page}`;
