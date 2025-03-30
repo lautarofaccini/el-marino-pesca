@@ -18,10 +18,14 @@ export async function getProductos(categoria, page, sort, busqueda) {
     filters += `&sort=${sort}`;
   }
   filters += `&pagination[pageSize]=25`;
-  
-  const newQuery = `productos?populate[imagenes][fields][0]=url&populate=especificaciones${filters}`;
-  return query(newQuery).then((res) => {
+
+  const newQuery = `productos?populate[imagenes][fields][0]=url&populate[especificaciones]=*&populate[categorias][fields][0]=slug${filters}`;
+  try {
+    const res = await query(newQuery);
     const { data, meta } = res;
+    if (!data) {
+      throw new Error(`La respuesta no contiene data. Query: ${newQuery}`);
+    }
     const productos = data.map((producto) => {
       const {
         id,
@@ -50,7 +54,11 @@ export async function getProductos(categoria, page, sort, busqueda) {
       };
     });
     return { productos, pagination: meta.pagination };
-  });
+  } catch (error) {
+    console.error("Error en getProductos:", error);
+    // Puedes re-lanzar el error o devolver un objeto de error para un manejo posterior
+    throw error;
+  }
 }
 
 export async function getProducto(slug) {

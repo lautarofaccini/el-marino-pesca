@@ -6,8 +6,7 @@ export async function GET(request) {
   const categoria = searchParams.get("categoria");
   const sort = searchParams.get("sort");
   const busqueda = searchParams.get("busqueda");
-  
-  console.log(page)
+
   const { productos, pagination } = await getProductos(
     categoria,
     page,
