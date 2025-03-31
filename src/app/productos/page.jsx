@@ -23,6 +23,9 @@ const ProductosPage = () => {
   const busqueda = searchParams.get("busqueda");
   const sortBy = searchParams.get("sort");
   const filtroCat = searchParams.get("categoria");
+  // Usamos valor por defecto "" para evitar null
+  const filtroMin = searchParams.get("filtroMin") || "";
+  const filtroMax = searchParams.get("filtroMax") || "";
 
   const [productos, setProductos] = useState([]);
   const [pagination, setPagination] = useState({ pageCount: 0 });
@@ -30,11 +33,41 @@ const ProductosPage = () => {
   const [categorias, setCategorias] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // La función que actualiza la URL con los filtros actuales
+  // Función para actualizar la URL con nuevos parámetros
+  // Aquí forzamos el orden: primero filtroMin, luego filtroMax y después el resto
   const actualizarUrl = (nuevosParams) => {
-    const params = new URLSearchParams(window.location.search);
-    // Actualizamos los parámetros que nos llegan en nuevosParams
-    Object.entries(nuevosParams).forEach(([key, value]) => {
+    const params = new URLSearchParams();
+
+    // Agregamos manualmente filtroMin y filtroMax si existen
+    if (nuevosParams.filtroMin !== undefined) {
+      if (nuevosParams.filtroMin)
+        params.set("filtroMin", nuevosParams.filtroMin);
+      else params.delete("filtroMin");
+    } else if (filtroMin) {
+      params.set("filtroMin", filtroMin);
+    }
+
+    if (nuevosParams.filtroMax !== undefined) {
+      if (nuevosParams.filtroMax)
+        params.set("filtroMax", nuevosParams.filtroMax);
+      else params.delete("filtroMax");
+    } else if (filtroMax) {
+      params.set("filtroMax", filtroMax);
+    }
+
+    // Para el resto de los parámetros, conservamos el orden que queramos
+    const otrosParams = {
+      page: nuevosParams.page,
+      categoria:
+        nuevosParams.categoria !== undefined
+          ? nuevosParams.categoria
+          : filtroCat,
+      sort: nuevosParams.sort !== undefined ? nuevosParams.sort : sortBy,
+      busqueda:
+        nuevosParams.busqueda !== undefined ? nuevosParams.busqueda : busqueda,
+    };
+
+    Object.entries(otrosParams).forEach(([key, value]) => {
       if (value) {
         params.set(key, value);
       } else {
@@ -53,6 +86,11 @@ const ProductosPage = () => {
     actualizarUrl({ categoria: value });
   };
 
+  // Función para manejar el envío de los filtros de precio (mín y máx)
+  const handlePrecioSubmit = (min, max) => {
+    actualizarUrl({ filtroMin: min, filtroMax: max });
+  };
+
   useEffect(() => {
     async function fetchProductos() {
       const queryParams = new URLSearchParams();
@@ -60,6 +98,8 @@ const ProductosPage = () => {
       if (filtroCat) queryParams.set("categoria", filtroCat);
       if (sortBy) queryParams.set("sort", sortBy);
       if (busqueda) queryParams.set("busqueda", busqueda);
+      if (filtroMin) queryParams.set("filtroMin", filtroMin);
+      if (filtroMax) queryParams.set("filtroMax", filtroMax);
 
       const res = await fetch(`/api/productos?${queryParams.toString()}`);
       const data = await res.json();
@@ -103,7 +143,7 @@ const ProductosPage = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="createdAt:desc">Más recientes</SelectItem>
-                <SelectItem value="createdAt:asc">Mas antigüo</SelectItem>
+                <SelectItem value="createdAt:asc">Más antiguo</SelectItem>
                 <SelectItem value="precio:asc">
                   Precio: menor a mayor
                 </SelectItem>
@@ -125,6 +165,9 @@ const ProductosPage = () => {
                     categorias={categorias}
                     filtroCat={filtroCat || ""}
                     onFiltroCatChange={handleFiltroCatChange}
+                    onPrecioRangeChange={handlePrecioSubmit}
+                    filtroMin={filtroMin}
+                    filtroMax={filtroMax}
                     limpiarFiltros={limpiarFiltros}
                   />
                 </div>
@@ -140,6 +183,9 @@ const ProductosPage = () => {
                 categorias={categorias}
                 filtroCat={filtroCat || ""}
                 onFiltroCatChange={handleFiltroCatChange}
+                onPrecioRangeChange={handlePrecioSubmit}
+                filtroMin={filtroMin}
+                filtroMax={filtroMax}
                 limpiarFiltros={limpiarFiltros}
               />
             </div>

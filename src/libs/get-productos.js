@@ -1,7 +1,14 @@
 import { query } from "./strapi";
 const { STRAPI_HOST } = process.env;
 
-export async function getProductos(categoria, page, sort, busqueda) {
+export async function getProductos(
+  categoria,
+  page,
+  sort,
+  busqueda,
+  filtroMin,
+  filtroMax
+) {
   // Construir filtros según lo recibido
   let filters = "";
   if (categoria) {
@@ -10,6 +17,12 @@ export async function getProductos(categoria, page, sort, busqueda) {
   if (busqueda) {
     // Se usa el operador $containsi para búsqueda insensible a mayúsculas/minúsculas
     filters += `&filters[slug][$containsi]=${busqueda}`;
+  }
+  if (filtroMin) {
+    filters += `&filters[precio][$gte]=${filtroMin}`;
+  }
+  if (filtroMax) {
+    filters += `&filters[precio][$lte]=${filtroMax}`;
   }
   if (page) {
     filters += `&pagination[page]=${page}`;

@@ -7,10 +7,18 @@ function Paginacion({ totalPages }) {
   const searchParams = useSearchParams();
   const currentPage = parseInt(searchParams.get("page")) || 1;
 
-  // Calcula la URL para la página anterior y siguiente
-  const prevPage = currentPage === 1 ? "#" : `?page=${currentPage - 1}`;
+  // Función para generar un href manteniendo los parámetros existentes y actualizando "page"
+  const getPageHref = (page) => {
+    // Copiamos los parámetros actuales
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page);
+    return `?${params.toString()}`;
+  };
+
+  // Calcula la URL para la página anterior y siguiente usando getPageHref
+  const prevPage = currentPage === 1 ? "#" : getPageHref(currentPage - 1);
   const nextPage =
-    currentPage === totalPages ? "#" : `?page=${currentPage + 1}`;
+    currentPage === totalPages ? "#" : getPageHref(currentPage + 1);
 
   // Función para generar los números de página a mostrar
   const getPageNumbers = () => {
@@ -97,7 +105,7 @@ function Paginacion({ totalPages }) {
           return (
             <Link
               key={page}
-              href={`?page=${page}`}
+              href={getPageHref(page)}
               className={`inline-flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-md text-sm font-medium transition-colors ${
                 isCurrentPage
                   ? "bg-gray-900 text-white"
