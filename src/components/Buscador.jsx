@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { X } from "lucide-react";
+import { X, Search } from "lucide-react";
 
 function Buscador() {
   const [input, setInput] = useState("");
@@ -42,14 +42,17 @@ function Buscador() {
         placeholder="Buscar productos..."
       />
       {input && (
-        <Button variant="ghost" size="icon" onClick={handleClear}>
+        <Button
+          type="button" // Se define explícitamente que es un botón normal
+          variant="ghost"
+          size="icon"
+          onClick={handleClear}
+        >
           <X className="w-4 h-4" />
           <span className="sr-only">Limpiar búsqueda</span>
         </Button>
       )}
-      <button className="cursor-pointer" type="submit">
-        Buscar
-      </button>
+      <Search className="cursor-pointer" type="submit"></Search>
     </form>
   );
 }

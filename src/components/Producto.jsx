@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
+//TODO: Agregar una etiqueta de AGOTADO si el stock es 0
 function Producto({ producto }) {
   return (
     <Link

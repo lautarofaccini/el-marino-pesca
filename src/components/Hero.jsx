@@ -16,21 +16,21 @@ function Hero() {
       </div>
       <div className="flex flex-col items-center justify-center h-full px-4 py-16 text-center relative z-10">
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-          Pescador Pro
+          El Marino Pesca
         </h1>
         <p className="max-w-md mt-4 text-lg text-muted-foreground">
-          Equipamiento de pesca de alta calidad para pescadores exigentes
+          Equipamiento de calidad
         </p>
         <div className="flex flex-col gap-4 mt-8 sm:flex-row">
           <Link
             href="/productos"
-            className="ring-1 ring-blue-400 text-white bg-blue-400 inline-flex text-sm font-medium rounded-md px-8 items-center justify-center"
+            className="ring-1 ring-blue-400 text-white bg-blue-400 inline-flex text-sm font-medium rounded-md px-8 items-center justify-center h-11"
           >
             Ver Productos
             <ShoppingBag className="w-4 h-4 ml-2" />
           </Link>
           <Link
-            href="/categorias"
+            href="#categorias"
             className="ring-1 ring-blue-400 text-blue-400 inline-flex text-sm font-medium rounded-md px-8 items-center justify-center h-11"
           >
             Explorar Categorías

@@ -49,6 +49,7 @@ export async function getProductos(
         precio,
         descuento,
         stock,
+        categorias,
         imagenes: images,
       } = producto;
 
@@ -63,6 +64,7 @@ export async function getProductos(
         precio,
         descuento,
         stock,
+        categorias,
         imagenes,
       };
     });
@@ -76,7 +78,7 @@ export async function getProductos(
 
 export async function getProducto(slug) {
   return query(
-    `productos?filters[slug][$eq]=${slug}&populate[imagenes][fields][0]=url&populate=especificaciones`
+    `productos?filters[slug][$eq]=${slug}&populate[imagenes][fields][0]=url&populate[especificaciones]=*&populate[categorias][fields][0]=slug`
   ).then((res) => {
     return res.data.map((producto) => {
       const {
@@ -87,6 +89,7 @@ export async function getProducto(slug) {
         precio,
         descuento,
         stock,
+        categorias,
         imagenes: images,
       } = producto;
 
@@ -100,8 +103,65 @@ export async function getProducto(slug) {
         precio,
         descuento,
         stock,
+        categorias,
         imagenes,
       };
     });
   });
+}
+
+export async function getProductosRelacionados({ categoria, marca, exclude }) {
+  let filters = "";
+  if (categoria) {
+    filters += `&filters[categorias][slug][$eq]=${categoria}`;
+  }
+  if (marca) {
+    filters += `&filters[especificaciones][detalle][$eq]=${marca}`;
+  }
+  if (exclude) {
+    filters += `&filters[slug][$ne]=${exclude}`;
+  }
+
+  const newQuery = `productos?populate[imagenes][fields][0]=url&populate[especificaciones]=*&populate[categorias][fields][0]=slug${filters}&pagination[pageSize]=25`;
+
+  try {
+    const res = await query(newQuery);
+    const { data } = res;
+    if (!data) {
+      throw new Error(`La respuesta no contiene data. Query: ${newQuery}`);
+    }
+    let productosRelacionados = data.map((producto) => {
+      const {
+        id,
+        nombre,
+        slug,
+        especificaciones,
+        isActive,
+        precio,
+        descuento,
+        stock,
+        categorias,
+        imagenes: images,
+      } = producto;
+      const imagenes = images?.map((img) => `${STRAPI_HOST}${img.url}`) || [];
+      return {
+        id,
+        nombre,
+        slug,
+        especificaciones,
+        isActive,
+        precio,
+        descuento,
+        stock,
+        categorias,
+        imagenes,
+      };
+    });
+    // Ordenar productos alfabéticamente por nombre
+    productosRelacionados.sort((a, b) => a.nombre.localeCompare(b.nombre));
+    return productosRelacionados;
+  } catch (error) {
+    console.error("Error en getProductosRelacionados:", error);
+    throw error;
+  }
 }

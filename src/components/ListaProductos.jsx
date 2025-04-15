@@ -5,9 +5,12 @@ function ListaProductos({ productos }) {
 
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {productos.map((producto) => (
-        <Producto key={producto.id} producto={producto} />
-      ))}
+      {productos.map(
+        (producto) =>
+          producto.isActive && (
+            <Producto key={producto.id} producto={producto} />
+          )
+      )}
     </div>
   );
 }

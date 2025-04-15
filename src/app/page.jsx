@@ -42,15 +42,16 @@ async function HomePage() {
           <ListaProductos productos={productosNuevos} />
         </div>
       </div>
-      <div className="py-12 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 mb-12 bg-white">
+      <div
+        id="categorias"
+        className="py-12 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 mb-12 bg-white"
+      >
         <div className="container mx-auto">
           <h1 className="text-2xl">Categorias</h1>
           <ListaCategorias />
         </div>
       </div>
-      {/*
-      //TODO: Boton que aparezca en mobiles para desplazarte hacia arriba
-      */}
+      {/* TODO: Botón que aparezca en móviles para desplazarte hacia arriba */}
     </div>
   );
 }
