@@ -1,17 +1,32 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Button } from "./ui/button";
+import { X, Search } from "lucide-react";
 
 function Buscador() {
+  const [input, setInput] = useState("");
   const router = useRouter();
 
   function handleSearch(e) {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get("name");
-    if (name) {
-      router.push(`/productos?name=${name}`);
+    if (input.trim() !== "") {
+      const slug = input
+        .normalize("NFD") // separa tildes y diacríticos
+        .replace(/[\u0300-\u036f]/g, "") // elimina diacríticos
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "-"); // reemplaza espacios por guiones
+
+      router.push(`/productos?busqueda=${encodeURIComponent(slug)}`);
+    } else {
+      router.push("/productos");
     }
+  }
+
+  function handleClear() {
+    setInput("");
   }
 
   return (
@@ -22,10 +37,22 @@ function Buscador() {
       <input
         className="flex-1 bg-transparent outline-none"
         type="text"
-        name="name"
-        placeholder="Buscar..."
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Buscar productos..."
       />
-      <button className="cursor-pointer">Buscar</button>
+      {input && (
+        <Button
+          type="button" // Se define explícitamente que es un botón normal
+          variant="ghost"
+          size="icon"
+          onClick={handleClear}
+        >
+          <X className="w-4 h-4" />
+          <span className="sr-only">Limpiar búsqueda</span>
+        </Button>
+      )}
+      <Search className="cursor-pointer" type="submit"></Search>
     </form>
   );
 }

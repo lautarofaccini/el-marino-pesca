@@ -1,45 +1,114 @@
-function Filtro() {
+"use client";
+import { useState, useEffect } from "react";
+import { Button } from "./ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { Input } from "./ui/input";
+
+function Filtro({
+  categorias,
+  filtroCat,
+  onFiltroCatChange,
+  onPrecioRangeChange,
+  filtroMin,
+  filtroMax,
+  limpiarFiltros,
+}) {
+  // Estados locales para los inputs de precio; se inicializan a cadena vacía si no hay valor
+  const [localMin, setLocalMin] = useState(filtroMin || "");
+  const [localMax, setLocalMax] = useState(filtroMax || "");
+  const [error, setError] = useState("");
+
+  // Sincroniza los estados locales cuando cambian los valores en el padre
+  useEffect(() => {
+    setLocalMin(filtroMin || "");
+  }, [filtroMin]);
+
+  useEffect(() => {
+    setLocalMax(filtroMax || "");
+  }, [filtroMax]);
+
+  // Manejadores simples: actualizar el estado sin restricciones para permitir borrar
+  const handleMinChange = (e) => {
+    setLocalMin(e.target.value);
+  };
+
+  const handleMaxChange = (e) => {
+    setLocalMax(e.target.value);
+  };
+
+  // Al presionar "Enviar", se verifica si los valores son negativos
+  const handleEnviarPrecios = () => {
+    const minNumber = Number(localMin);
+    const maxNumber = Number(localMax);
+    if (minNumber < 0 || maxNumber < 0) {
+      setError("Los valores no pueden ser negativos");
+      return;
+    }
+    setError("");
+    onPrecioRangeChange(localMin, localMax);
+  };
+
   return (
-    <div className="mt-12 flex justify-between">
-      {/* IZQUIERDA */}
-      <div className="flex gap-6 flex-wrap">
-        <select
-          className="py-2 px-2 rounded-2xl text-xs font-medium bg-[#EBEDED]"
-          name="Tipo"
-          id=""
+    <>
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-medium">Filtros</h3>
+        <Button
+          className="hover:cursor-pointer"
+          variant="ghost"
+          size="sm"
+          onClick={limpiarFiltros}
         >
-          <option>Tipo</option>
-          <option value="cana">Caña</option>
-          <option value="reel">Reel</option>
-        </select>
-        <input
-          className="text-xs rounded-2xl pl-2 w-24 ring-1 ring-gray-400"
-          type="number"
-          name="min"
-          placeholder="precio min."
-        />
-        <input
-          className="text-xs rounded-2xl pl-2 w-24 ring-1 ring-gray-400"
-          type="number"
-          name="max"
-          placeholder="precio max."
-        />
+          Limpiar
+        </Button>
       </div>
-      {/* DERECHA */}
       <div>
-        <select
-          className="py-2 px-2 rounded-2xl text-xs font-medium bg-[#EBEDED]"
-          name="Orden"
-          id=""
-        >
-          <option>Ordenar por</option>
-          <option value="">Precio (Menor a Mayor)</option>
-          <option value="">Precio (Mayor a Menor)</option>
-          <option value="">Más nuevo</option>
-          <option value="">Más viejo</option>
-        </select>
+        <h4 className="mb-4 text-sm font-medium">Categorías</h4>
+        <div className="grid gap-2">
+          <Select value={filtroCat} onValueChange={onFiltroCatChange}>
+            <SelectTrigger className="w-full sm:w-[180px]">
+              <SelectValue placeholder="Categoría" />
+            </SelectTrigger>
+            <SelectContent>
+              {categorias.map((categoria) => (
+                <SelectItem value={categoria.slug} key={categoria.id}>
+                  {categoria.nombre}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
-    </div>
+      <div>
+        <h4 className="mb-4 text-sm font-medium">Precio</h4>
+        <div className="flex flex-col lg:flex-row gap-4 items-center">
+          <Input
+            type="number"
+            name="min"
+            placeholder="precio min."
+            value={localMin}
+            onChange={handleMinChange}
+          />
+          <Input
+            type="number"
+            name="max"
+            placeholder="precio max."
+            
+            value={localMax}
+            onChange={handleMaxChange}
+          />
+          <Button onClick={handleEnviarPrecios} size="sm">
+            Enviar
+          </Button>
+        </div>
+        {error && <p className="text-xs text-red-500 mt-2">{error}</p>}
+      </div>
+    </>
   );
 }
 

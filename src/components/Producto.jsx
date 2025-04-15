@@ -1,15 +1,14 @@
-import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
+//TODO: Agregar una etiqueta de AGOTADO si el stock es 0
 function Producto({ producto }) {
   return (
     <Link
-      className="w-full flex flex-col gap-4 sm:w-[45%] lg:w-[22%]"
+      className="rounded-lg shadow-sm overflow-hidden transition-all hover:shadow-md"
       href={"/" + producto.slug}
     >
-      <div className="relative w-full h-80">
+      <div className="relative h-48">
         {
           //Si existe una segunda imagen, mostrarla
           producto.imagenes[1] && (
@@ -18,6 +17,7 @@ function Producto({ producto }) {
               alt=""
               fill
               sizes="25vw"
+              priority={true}
               className="absolute object-cover rounded-md opacity-0 z-10 hover:opacity-100 transition-opacity easy duration-500"
             />
           )
@@ -27,20 +27,20 @@ function Producto({ producto }) {
           alt=""
           fill
           sizes="25vw"
+          priority={true}
           className="absolute object-cover rounded-md"
         />
+        {/* Mostrar etiqueta de nuevo, descuento, etc */}
+        {producto.stock <= 2 && (
+          <div className="absolute top-2 right-2 bg-blue-400 text-white text-xs px-2 py-1 rounded">
+            Ultimos Productos
+          </div>
+        )}
       </div>
-      <div className="flex justify-between">
-        <span className="font-medium">{producto.nombre}</span>
-        <span className="font-semibold">${producto.precio}</span>
+      <div className="p-4">
+        <h3 className="font-medium line-clamp-1">{producto.nombre}</h3>
+        <p className="mt-2 font-bold text-blue-400">${producto.precio.toFixed(2)}</p>
       </div>
-      <BlocksRenderer
-        className="text-sm to-gray-500"
-        content={producto.descripcion}
-      />
-      <button className="rounded-2xl ring-1 ring-red-400 text-red-400 w-max py-2 px-4 text-xs hover:bg-red-400 hover:text-white">
-        Ver
-      </button>
     </Link>
   );
 }
