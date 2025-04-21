@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Kpirote",
+  title: "El Marinio Pesca",
   description: "Sitio de venta de insumos de pesca",
 };
 
