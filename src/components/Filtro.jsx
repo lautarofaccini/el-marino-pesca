@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Input } from "./ui/input";
+import { ChevronRight } from "lucide-react";
 
 function Filtro({
   categorias,
@@ -59,7 +60,7 @@ function Filtro({
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-medium">Filtros</h3>
         <Button
-          className="hover:cursor-pointer"
+          className="hover:cursor-pointer hover:underline"
           variant="ghost"
           size="sm"
           onClick={limpiarFiltros}
@@ -98,12 +99,15 @@ function Filtro({
             type="number"
             name="max"
             placeholder="precio max."
-            
             value={localMax}
             onChange={handleMaxChange}
           />
-          <Button onClick={handleEnviarPrecios} size="sm">
-            Enviar
+          <Button
+            onClick={handleEnviarPrecios}
+            size="sm"
+            className="cursor-pointer"
+          >
+            <ChevronRight />
           </Button>
         </div>
         {error && <p className="text-xs text-red-500 mt-2">{error}</p>}

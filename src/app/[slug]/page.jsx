@@ -67,72 +67,75 @@ async function ProductoPage({ params }) {
     );
   }
 
+  //TODO: Que no se borre el historial cuando vuelvo atras
   return (
     <div className="pb-12 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 ">
       {/* Contenedor principal: Imágenes y detalles del producto */}
-      <div className="">
-        <Link
-          href="/productos"
-          className="inline-flex items-center mb-6 text-sm font-medium text-blue-400 hover:underline"
-        >
-          <ChevronLeft className="w-4 h-4 mr-1" />
-          Volver a productos
-        </Link>
-        <div className="grid gap-8 md:grid-cols-2">
-          {/* IMG */}
-          <div className="grid gap-4">
-            <ImagenesProducto imagenes={imagenes} />
-          </div>
-          {/* TEXT */}
-          <div className="grid gap-4">
-            <div className="w-full flex flex-col gap-6">
-              <h1 className="text-4xl font-medium">{nombre}</h1>
-              <div className="h-[2px] bg-gray-200" />
-              <div className="flex items-center gap-4">
-                {descuento > 0 && (
-                  <>
-                    <h3 className="text-xl text-gray-500 line-through">
-                      ${precio.toFixed(2)}
-                    </h3>
-                    <h3 className="text-xl text-red-500">%{descuento}</h3>
-                  </>
-                )}
-                <h2 className="font-medium text-2xl">
-                  ${precioDescontado.toFixed(2)}
-                </h2>
-              </div>
-              <div className="h-[2px] bg-gray-200" />
-              {/* Especificaciones */}
-              <div className="text-sm">
-                <h4 className="font-medium mb-4">
-                  Características Principales
-                </h4>
-                {especificaciones.map((esp) => (
-                  <div key={esp.id}>
-                    {esp.caracteristica}: {esp.detalle}
-                  </div>
-                ))}
-              </div>
+      <Link
+        href="/productos"
+        className="inline-flex items-center mb-6 text-sm font-medium text-blue-400 hover:underline"
+      >
+        <ChevronLeft className="w-4 h-4 mr-1" />
+        Volver a productos
+      </Link>
+      <div className="grid gap-8 md:grid-cols-2">
+        {/* IMG */}
+        <div className="grid gap-4">
+          <ImagenesProducto imagenes={imagenes} />
+        </div>
+        {/* TEXT */}
+        <div className="grid gap-4">
+          <div className="w-full flex flex-col gap-6">
+            <h1 className="text-4xl font-medium">{nombre}</h1>
+            <div className="h-[2px] bg-gray-200" />
+            <div className="flex items-center gap-4">
+              {descuento > 0 && (
+                <>
+                  <h3 className="text-xl text-gray-500 line-through">
+                    $
+                    {precio.toLocaleString("es-AR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </h3>
+                  <h3 className="text-xl text-red-500">%{descuento}</h3>
+                </>
+              )}
+              <h2 className="font-medium text-2xl">
+                $
+                {precioDescontado.toLocaleString("es-AR", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </h2>
+            </div>
+            <div className="h-[2px] bg-gray-200" />
+            {/* Especificaciones */}
+            <div className="text-sm">
+              <h4 className="font-medium mb-4">Características Principales</h4>
+              {especificaciones.map((esp) => (
+                <div key={esp.id}>
+                  {esp.caracteristica}: {esp.detalle}
+                </div>
+              ))}
             </div>
           </div>
         </div>
-        {/* Sección de Productos Relacionados */}
-        {productosRelacionados.length > 0 && (
-          <div className="mt-12">
-            <h2 className="text-2xl font-medium mb-6">
-              Productos Relacionados
-            </h2>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {productosRelacionados.map(
-                (producto) =>
-                  producto.isActive && (
-                    <Producto key={producto.id} producto={producto} />
-                  )
-              )}
-            </div>
-          </div>
-        )}
       </div>
+      {/* Sección de Productos Relacionados */}
+      {productosRelacionados.length > 0 && (
+        <div className="mt-12">
+          <h2 className="text-2xl font-medium mb-6">Productos Relacionados</h2>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {productosRelacionados.map(
+              (producto) =>
+                producto.isActive && (
+                  <Producto key={producto.id} producto={producto} />
+                )
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

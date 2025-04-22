@@ -39,7 +39,13 @@ function Producto({ producto }) {
       </div>
       <div className="p-4">
         <h3 className="font-medium line-clamp-1">{producto.nombre}</h3>
-        <p className="mt-2 font-bold text-blue-400">${producto.precio.toFixed(2)}</p>
+        <p className="mt-2 font-bold text-blue-400">
+          $
+          {producto.precio.toLocaleString("es-AR", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
+        </p>
       </div>
     </Link>
   );

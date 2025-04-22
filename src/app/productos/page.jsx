@@ -6,7 +6,7 @@ import Filtro from "@/components/Filtro";
 import ListaProductos from "@/components/ListaProductos";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Filter } from "lucide-react";
+import { ChevronLeft, Filter } from "lucide-react";
 import Paginacion from "@/components/Paginacion";
 import {
   Select,
@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Link from "next/link";
 
 const ProductosPage = () => {
   const router = useRouter();
@@ -127,7 +128,14 @@ const ProductosPage = () => {
   if (loading) return <p>Cargando...</p>;
 
   return (
-    <div className="py-12 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
+    <div className="pb-12 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
+      <Link
+        href="/"
+        className="inline-flex items-center mb-6 text-sm font-medium text-blue-400 hover:underline"
+      >
+        <ChevronLeft className="w-4 h-4 mr-1" />
+        Volver al inicio
+      </Link>
       <div className="container mx-auto">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
@@ -202,7 +210,7 @@ const ProductosPage = () => {
                 </p>
                 <Button
                   variant="outline"
-                  className="mt-4"
+                  className="mt-4 cursor-pointer"
                   onClick={limpiarFiltros}
                 >
                   Limpiar filtros

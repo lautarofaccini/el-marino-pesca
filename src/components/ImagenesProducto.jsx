@@ -57,7 +57,7 @@ function ImagenesProducto({ imagenes }) {
             <button
               key={i}
               onClick={() => setIndex(i)}
-              className={`relative w-full aspect-square overflow-hidden border-2 transition-colors ${
+              className={`relative w-full aspect-square overflow-hidden rounded-md border-2 transition-colors ${
                 i === index ? "border-primary" : "border-transparent"
               }`}
             >

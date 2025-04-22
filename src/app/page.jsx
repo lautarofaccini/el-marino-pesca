@@ -3,6 +3,7 @@ import ListaCategorias from "@/components/ListaCategorias";
 import { getProductos } from "@/libs/get-productos";
 import Hero from "@/components/Hero";
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 
 async function HomePage() {
   const { productos: productosDestacados } = await getProductos("destacados");
@@ -20,9 +21,10 @@ async function HomePage() {
             <h2 className="text-2xl">Productos Destacados</h2>
             <Link
               href="/productos"
-              className="text-sm font-medium hover:underline"
+              className="inline-flex items-center gap-1 text-sm font-medium hover:underline"
             >
               Ver todos
+              <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
           <ListaProductos productos={productosDestacados} />
@@ -34,9 +36,10 @@ async function HomePage() {
             <h2 className="text-2xl">Nuevos Ingresos</h2>
             <Link
               href="/productos"
-              className="text-sm font-medium hover:underline"
+              className="inline-flex items-center gap-1 text-sm font-medium hover:underline"
             >
               Ver todos
+              <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
           <ListaProductos productos={productosNuevos} />
