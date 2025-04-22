@@ -1,6 +1,8 @@
 import ImagenesProducto from "@/components/ImagenesProducto";
 import { getProducto, getProductos } from "@/libs/get-productos";
 import Producto from "@/components/Producto";
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 
 async function ProductoPage({ params }) {
   const { slug } = await params;
@@ -65,59 +67,75 @@ async function ProductoPage({ params }) {
     );
   }
 
+  //TODO: Que no se borre el historial cuando vuelvo atras
   return (
-    <div className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col gap-16 mb-10">
+    <div className="pb-12 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 ">
       {/* Contenedor principal: Imágenes y detalles del producto */}
-      <div className="flex flex-col lg:flex-row gap-16">
+      <Link
+        href="/productos"
+        className="inline-flex items-center mb-6 text-sm font-medium text-blue-400 hover:underline"
+      >
+        <ChevronLeft className="w-4 h-4 mr-1" />
+        Volver a productos
+      </Link>
+      <div className="grid gap-8 md:grid-cols-2">
         {/* IMG */}
-        <div className="w-full lg:w-1/2 lg:sticky top-20 h-max">
+        <div className="grid gap-4">
           <ImagenesProducto imagenes={imagenes} />
         </div>
         {/* TEXT */}
-        <div className="w-full lg:w-1/2 flex flex-col gap-6">
-          <h1 className="text-4xl font-medium">{nombre}</h1>
-          <div className="h-[2px] bg-gray-200" />
-          <div className="flex items-center gap-4">
-            {descuento > 0 && (
-              <>
-                <h3 className="text-xl text-gray-500 line-through">
-                  ${precio.toFixed(2)}
-                </h3>
-                <h3 className="text-xl text-red-500">%{descuento}</h3>
-              </>
-            )}
-            <h2 className="font-medium text-2xl">
-              ${precioDescontado.toFixed(2)}
-            </h2>
-          </div>
-          <div className="h-[2px] bg-gray-200" />
-          {/* Especificaciones */}
-          <div className="text-sm">
-            <h4 className="font-medium mb-4">Características Principales</h4>
-            {especificaciones.map((esp) => (
-              <div key={esp.id}>
-                {esp.caracteristica}: {esp.detalle}
-              </div>
-            ))}
-            {/* Sección de Productos Relacionados */}
-            {productosRelacionados.length > 0 && (
-              <div className="mt-12">
-                <h2 className="text-2xl font-medium mb-6">
-                  Productos Relacionados
-                </h2>
-                <div className="w-full grid grid-cols-4 gap-4 lg:grid-cols-2">
-                  {productosRelacionados.map(
-                    (producto) =>
-                      producto.isActive && (
-                        <Producto key={producto.id} producto={producto} />
-                      )
-                  )}
+        <div className="grid gap-4">
+          <div className="w-full flex flex-col gap-6">
+            <h1 className="text-4xl font-medium">{nombre}</h1>
+            <div className="h-[2px] bg-gray-200" />
+            <div className="flex items-center gap-4">
+              {descuento > 0 && (
+                <>
+                  <h3 className="text-xl text-gray-500 line-through">
+                    $
+                    {precio.toLocaleString("es-AR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </h3>
+                  <h3 className="text-xl text-red-500">%{descuento}</h3>
+                </>
+              )}
+              <h2 className="font-medium text-2xl">
+                $
+                {precioDescontado.toLocaleString("es-AR", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </h2>
+            </div>
+            <div className="h-[2px] bg-gray-200" />
+            {/* Especificaciones */}
+            <div className="text-sm">
+              <h4 className="font-medium mb-4">Características Principales</h4>
+              {especificaciones.map((esp) => (
+                <div key={esp.id}>
+                  {esp.caracteristica}: {esp.detalle}
                 </div>
-              </div>
-            )}
+              ))}
+            </div>
           </div>
         </div>
       </div>
+      {/* Sección de Productos Relacionados */}
+      {productosRelacionados.length > 0 && (
+        <div className="mt-12">
+          <h2 className="text-2xl font-medium mb-6">Productos Relacionados</h2>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {productosRelacionados.map(
+              (producto) =>
+                producto.isActive && (
+                  <Producto key={producto.id} producto={producto} />
+                )
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

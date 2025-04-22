@@ -26,9 +26,7 @@ function Navbar() {
             <Image src="/logo.png" alt="" width={30} height={30} />
             <div className="text-2xl tracking-wide">{nombre}</div>
           </Link>
-          <div className="hidden xl:flex gap-4">
-            <Link href="/productos">Productos</Link>
-          </div>
+          {/* Agregar links de cosas como /productos */}
         </div>
         {/* DERECHA */}
         <div className="w-2/3 xl:w-1/2 flex items-center justify-between gap-8">

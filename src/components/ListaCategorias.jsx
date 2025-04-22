@@ -6,7 +6,7 @@ async function ListaCategorias() {
   if (categorias.length === 0) return <div>No hay categorías cargadas</div>;
   const noCategoria = {
     nombre: "Todos los productos",
-    imagen: "http://localhost:1337/uploads/todos_los_productos_4e7c073fe2.webp",
+    imagen: "/productoPlaceholder.jpg",
     //TODO: Que esto venga de alguna variable de la pagina o tenga un valor por default
   };
   return (

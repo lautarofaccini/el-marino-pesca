@@ -7,7 +7,7 @@ function Hero() {
     <div className="relative w-full h-[50vh] bg-blue-50">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/cana3.png"
+          src="/productoPlaceholder.jpg"
           alt="Fishing equipment"
           fill
           className="object-cover opacity-20"
